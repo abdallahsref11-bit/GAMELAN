@@ -4,7 +4,7 @@ import {
   MapPin, Phone, Star, UtensilsCrossed, 
   ArrowRight, Instagram, Facebook, Twitter, Award,
   Sparkles, Coffee, Menu as MenuIcon, X, ChevronLeft,
-  MessageCircle
+  MessageCircle, ThumbsUp, Share2, MoreHorizontal, User
 } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 
@@ -54,6 +54,78 @@ const MENU_ITEMS = [
     description: "Hand-flipped thin flaky bread, served with our golden dhal or aromatic fish curry dip.",
     image: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=800&q=80"
   }
+];
+
+const REVIEWS = [
+  {
+    id: 1,
+    author: "火茶",
+    type: "Local Guide",
+    reviewCount: 11,
+    photoCount: 15,
+    time: "5 months ago",
+    content: "The dishes over here tastes nice, rich of flavours. I like how they cook there food with variety of species and fit perfectly the traditional food they made. For the enviroment, this place is clean and tidy, temperature is not hot even in the afternoon.",
+    rating: 5
+  },
+  {
+    id: 2,
+    author: "Usman",
+    type: "Local Guide",
+    reviewCount: 74,
+    photoCount: 90,
+    time: "3 months ago",
+    content: "Food was good, waiters were fast but do not know how to serve or deal with customers. Cashier was rude when I asked for clarification, his tune and response was rude and very surprising for me, because of his behavior food taste bad otherwise it was good.",
+    rating: 2,
+    response: "Sorry sir but this is not Gamelan. We don’t have those kind of plate. We believe that the place you’re trying to tag is the cafe above our restaurant. Hope you can delete this and post a new review tagging the right place. Thank you.."
+  },
+  {
+    id: 3,
+    author: "M",
+    type: "Local Guide",
+    reviewCount: 39,
+    photoCount: 48,
+    time: "8 months ago",
+    content: "First time here. Akak at counter maybe it’s the owner, is really good at QC their food and drink. Staff sent a not ‘kaw’ kopi ais and she came by to the table to exchange it cause she saw it delivered like that, we didn't even ask for an exchange. Great service!",
+    rating: 5
+  },
+  {
+    id: 4,
+    author: "Andrew Ang",
+    type: "Local Guide",
+    reviewCount: 920,
+    photoCount: 22085,
+    time: "2 years ago",
+    content: "Hidden within the enclave of Ara Damansara, Gamelan is a gem of a find. If you're into Malay food, this place has an array of dishes that is full of flavours and not that spicy. There's also ala-carte options like Laksam, Nasi Kerabu and more.",
+    rating: 5
+  },
+  {
+    id: 5,
+    author: "Nancy Ng",
+    type: "Local Guide",
+    reviewCount: 556,
+    photoCount: 7033,
+    time: "2 years ago",
+    content: "Nice clean & quiet place for breakfast. The Nasi Kerabu and Laksa Kelantan are the highlight dishes. Nasi Dagang is available here too. Everything tastes authentic and fresh.",
+    rating: 4
+  },
+  {
+    id: 6,
+    author: "Sam Zane",
+    type: "Local Guide",
+    reviewCount: 235,
+    photoCount: 314,
+    time: "6 years ago",
+    content: "Had breakfast here. Assorted Malay kuehs. Nasi Kerabu, Nasi Dagang, Nasi Lemak, Laksam, Lontong are available. Others like fried rice, fried mee hoon self serve with accompaniment like fried egg.",
+    rating: 5
+  }
+];
+
+const REVIEW_TAGS = [
+  { name: "All", count: 303 },
+  { name: "nasi dagang", count: 21 },
+  { name: "nasi kerabu", count: 21 },
+  { name: "laksam", count: 5 },
+  { name: "malay food", count: 16 }
 ];
 
 const EXPERIENCES = [
@@ -162,7 +234,7 @@ export default function App() {
   const opacityHero = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const scaleHero = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
 
-  const navLinks = ['Home', 'About', 'Menu', 'Experience', 'Contact'];
+  const navLinks = ['Home', 'About', 'Menu', 'Experience', 'Reviews', 'Contact'];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -528,7 +600,7 @@ export default function App() {
               <TypingEffect text="Explore a curated selection of traditional Malaysian dishes, reimagined through modern culinary excellence in the heart of Selangor." />
             </motion.p>
             
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row justify-center gap-4 md:gap-6">
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 md:gap-6">
               <motion.button 
                 onClick={() => { setShowMenuPage(true); window.scrollTo(0,0); }}
                 whileHover={{ scale: 1.05 }}
@@ -548,6 +620,15 @@ export default function App() {
                 className="px-8 py-4 md:px-10 md:py-5 bg-white text-black rounded-full transition-all shadow-lg font-bold text-xs md:text-sm uppercase tracking-widest inline-flex items-center justify-center"
               >
                 Order Now
+              </motion.a>
+
+              <motion.a 
+                href="#reviews"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-4 md:px-10 md:py-5 rounded-full bg-white/5 border border-white/10 hover:border-amber-500/50 hover:bg-amber-500/5 transition-all shadow-lg font-bold text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-2"
+              >
+                <Star className="w-4 h-4 text-amber-500 fill-amber-500" /> Reviews
               </motion.a>
 
               <motion.a 
@@ -658,6 +739,166 @@ export default function App() {
                 </div>
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews Section */}
+      <section id="reviews" className="py-24 bg-black/50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-3 gap-16 items-start mb-20">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="lg:col-span-1 space-y-8"
+            >
+              <div>
+                <h2 className="font-serif text-5xl font-bold text-white mb-4">Guest <span className="text-amber-500 italic">Voices</span></h2>
+                <p className="text-neutral-500 text-sm font-medium tracking-widest uppercase">Honest feedback from our community</p>
+              </div>
+
+              <div className="p-8 rounded-[40px] bg-neutral-900 border border-white/5 space-y-6 shadow-2xl">
+                <div className="flex items-center gap-6">
+                  <span className="text-7xl font-serif font-bold text-white leading-none">4.1</span>
+                  <div className="space-y-1">
+                    <div className="flex text-amber-500 gap-0.5">
+                      {[...Array(4)].map((_, i) => <Star key={i} className="w-5 h-5 fill-amber-500" />)}
+                      <Star className="w-5 h-5 fill-amber-500/20 text-amber-500" />
+                    </div>
+                    <p className="text-neutral-400 text-xs font-bold uppercase tracking-widest">303 Reviews</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3 pt-4">
+                  {[
+                    { s: 5, p: 75 },
+                    { s: 4, p: 15 },
+                    { s: 3, p: 5 },
+                    { s: 2, p: 2 },
+                    { s: 1, p: 3 }
+                  ].map((rate) => (
+                    <div key={rate.s} className="flex items-center gap-4 text-[10px] font-bold text-neutral-500">
+                      <span className="w-2">{rate.s}</span>
+                      <div className="flex-grow h-1.5 bg-white/5 rounded-full overflow-hidden">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${rate.p}%` }}
+                          transition={{ duration: 1.5, ease: "easeOut" }}
+                          className="h-full bg-amber-500"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <motion.button 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-4 mt-4 bg-white/5 border border-white/10 rounded-2xl text-white text-xs font-black uppercase tracking-[0.2em] hover:bg-amber-500 hover:text-black transition-all"
+                >
+                  Write a review
+                </motion.button>
+              </div>
+            </motion.div>
+
+            <div className="lg:col-span-2 space-y-10">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                {/* Popular Tags */}
+                <div className="flex flex-wrap gap-2">
+                  {REVIEW_TAGS.map((tag, i) => (
+                    <motion.button
+                      key={i}
+                      whileHover={{ y: -2 }}
+                      className={`px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all ${
+                        i === 0 ? 'bg-amber-500 border-amber-500 text-black' : 'bg-neutral-900 border-white/10 text-neutral-400 hover:border-amber-500'
+                      }`}
+                    >
+                      {tag.name} <span className="opacity-40 ml-1">{tag.count}</span>
+                    </motion.button>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">Sort by:</span>
+                  <button className="flex items-center gap-2 px-4 py-2 bg-neutral-900 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-white hover:border-amber-500 transition-colors">
+                    Relevant <ArrowRight className="w-3 h-3 rotate-90" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Review Cards */}
+              <div className="space-y-6">
+                {REVIEWS.map((rev, idx) => (
+                  <motion.div
+                    key={rev.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                    viewport={{ once: true }}
+                    className="p-8 rounded-[40px] bg-neutral-900 border border-white/5 hover:border-amber-500/20 transition-all group"
+                  >
+                    <div className="flex justify-between items-start mb-6">
+                      <div className="flex gap-4 items-center">
+                        <div className="w-12 h-12 rounded-full bg-neutral-800 flex items-center justify-center border border-white/5">
+                          <User className="w-6 h-6 text-neutral-600" />
+                        </div>
+                        <div>
+                          <h4 className="text-white font-bold text-sm">{rev.author}</h4>
+                          <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-widest">
+                            {rev.type} • {rev.reviewCount} reviews
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex text-amber-500 gap-0.5">
+                        {[...Array(rev.rating)].map((_, i) => <Star key={i} className="w-3 h-3 fill-amber-500" />)}
+                      </div>
+                    </div>
+
+                    <p className="text-neutral-400 text-sm leading-relaxed mb-6 font-light">
+                      {rev.content}
+                    </p>
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest">{rev.time}</span>
+                      <div className="flex gap-6">
+                        <button className="flex items-center gap-2 text-neutral-500 hover:text-amber-500 transition-colors text-[10px] uppercase font-black uppercase tracking-widest">
+                          <ThumbsUp className="w-3.5 h-3.5" /> Like
+                        </button>
+                        <button className="text-neutral-500 hover:text-amber-500 transition-colors">
+                          <Share2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {rev.response && (
+                      <motion.div 
+                        initial={{ opacity: 0, x: 10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        className="mt-8 pt-8 border-t border-white/5 space-y-4"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="w-1 h-4 bg-amber-500 rounded-full" />
+                          <p className="text-white text-[10px] font-black uppercase tracking-widest">Response from owner</p>
+                        </div>
+                        <p className="text-neutral-500 text-xs italic leading-relaxed bg-black/30 p-4 rounded-2xl border border-white/5">
+                          "{rev.response}"
+                        </p>
+                      </motion.div>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+              
+              <div className="text-center pt-8">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  className="text-amber-500 font-black uppercase tracking-widest text-[10px] flex items-center gap-2 mx-auto"
+                >
+                  View more reviews on Google <ArrowRight className="w-3 h-3" />
+                </motion.button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
