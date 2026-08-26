@@ -7,6 +7,7 @@ import {
   MessageCircle, ThumbsUp, Share2, MoreHorizontal, User
 } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import heroFoodImage from './assets/images/luxury_dining_hero_1787728597709.jpg';
 
 const MENU_ITEMS = [
   {
@@ -554,11 +555,12 @@ export default function App() {
             style={{ scale: scaleHero }}
             className="w-full h-full"
           >
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/20 z-10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-black/75 to-black/55 z-10" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/35 to-black/85 z-10" />
             <img 
-              src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=2000&q=80" 
-              alt="Luxury Dining" 
-              className="w-full h-full object-cover grayscale-[20%] contrast-110"
+              src={heroFoodImage} 
+              alt="GAMELAN Luxury Malaysian Fine Dining" 
+              className="w-full h-full object-cover object-center brightness-[0.67] contrast-[1.18] saturate-[1.0]"
               referrerPolicy="no-referrer"
             />
           </motion.div>
